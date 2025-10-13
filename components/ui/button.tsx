@@ -12,7 +12,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variantClasses = {
       default: "bg-blue-600 text-white hover:bg-blue-700",
-      outline: "border border-gray-300 bg-white hover:bg-gray-50",
+      outline: "border border-gray-300 bg-gray-600 hover:bg-gray-500",
       ghost: "hover:bg-gray-100",
     }
 

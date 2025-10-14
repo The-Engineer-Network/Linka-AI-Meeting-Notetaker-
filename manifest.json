@@ -1,0 +1,49 @@
+{
+  "manifest_version": 3,
+  "name": "Linka - AI Meetings Notetaker",
+  "version": "1.0.0",
+  "description": "Privacy-first AI meeting notes with real-time transcription and translation",
+
+  "icons": {
+    "16": "out/icons/icon-16.png",
+    "48": "out/icons/icon-48.png",
+    "128": "out/icons/icon-128.png"
+  },
+
+  "action": {
+    "default_popup": "out/popup/index.html",
+    "default_title": "Linka - AI Meetings Notetaker"
+  },
+
+  "permissions": [
+    "activeTab",
+    "storage",
+    "tabCapture"
+  ],
+
+  "host_permissions": [
+    "https://meet.google.com/*",
+    "https://zoom.us/*",
+    "https://teams.microsoft.com/*",
+    "https://slack.com/*",
+    "https://*.slack.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/meeting-capture.js"]
+    }
+  ],
+
+  "web_accessible_resources": [
+    {
+      "resources": ["assets/*", "out/_next/*"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

@@ -40,11 +40,11 @@ export default function ExportPage() {
 
     return (
         <ExportProvider>
-      <main className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 min-h-screen transition-colors duration-300 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto narrow-view">
+      <main className="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-50 min-h-screen transition-colors duration-300 p-4 sm:p-6 lg:p-8 max-w-6xl mx-auto narrow-view pt-24">
         {/* Breadcrumb Header */}
         <header className="mb-6">
           <nav className="flex items-center space-x-2 text-sm mb-2 text-gray-500 dark:text-gray-400">
-            <a href="/" className="hover:text-blue-500">Dashboard</a>
+            <a href="/dashboard" className="hover:text-blue-500">Dashboard</a>
             <span>{">"}</span>
             <span>Export & Sharing Hub</span>
           </nav>

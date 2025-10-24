@@ -119,6 +119,14 @@ export function CTA() {
               Add to Chrome - Free
               <ArrowRight className="w-4 h-4" />
             </Button>
+            <Button
+              variant="outline"
+              className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-4 rounded-full font-semibold flex items-center gap-2"
+              onClick={() => window.location.href = '/dashboard'}
+            >
+              Go to Dashboard
+              <ArrowRight className="w-4 h-4" />
+            </Button>
           </motion.div>
 
           {/* Trust indicators */}

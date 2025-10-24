@@ -14,6 +14,9 @@ import { Pagination } from "@/components/meetings/Pagination";
 import { ViewMode } from "@/types/meeting.types";
 
 export default function MeetingsPage() {
+  const handleBackToDashboard = () => {
+    window.location.href = '/dashboard';
+  };
   // Filter hook
   const {
     searchQuery,
@@ -98,6 +101,7 @@ export default function MeetingsPage() {
         showFilters={showFilters}
         onToggleFilters={() => setShowFilters(!showFilters)}
         activeFiltersCount={activeFiltersCount}
+        onBackToDashboard={handleBackToDashboard}
       />
 
       {/* Filter Chips */}

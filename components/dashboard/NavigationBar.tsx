@@ -8,6 +8,7 @@ interface NavigationBarProps {
 export const NavigationBar: React.FC<NavigationBarProps> = ({ className = '' }) => {
   const navItems = [
     { href: '/dashboard', label: 'Dashboard' },
+    { href: '/archive', label: 'Archive' },
     { href: '/profile', label: 'Profile' },
     { href: '/settings', label: 'Settings' },
   ];

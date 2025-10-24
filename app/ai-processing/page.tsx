@@ -39,7 +39,7 @@ export default function AIProcessingPage() {
         min-h-screen transition-colors duration-300 p-4 sm:p-6 lg:p-8 mx-auto' >
             <header className="mb-6">
                 <nav className="flex items-center space-x-2 text-sm mb-2 mt-4 text-gray-500 dark:text-gray-400">
-                    <Link href="/" className='hover:text-blue-500'>Dashboard</Link>
+                    <Link href="/dashboard" className='hover:text-blue-500'>Dashboard</Link>
                     <span>{">"}</span>
                     <span>AI Processing Center</span>
                 </nav>

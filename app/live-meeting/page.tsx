@@ -82,6 +82,10 @@ export default function LiveMeeting() {
   const handleStopRecording = () => {
     setIsRecording(false);
     setIsPaused(false);
+    // Navigate back to dashboard after stopping recording
+    setTimeout(() => {
+      window.location.href = '/dashboard';
+    }, 1000); // Small delay to show the stop action
   };
 
   const handlePauseRecording = () => {

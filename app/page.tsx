@@ -60,15 +60,21 @@ export default function Home() {
 
       {/* Features Section - Showcase key capabilities with animations */}
       {/* README: Feature showcase with animations */}
-      <Features />
+      <section id="features">
+        <Features />
+      </section>
 
       {/* How It Works - Step-by-step user journey visualization */}
       {/* README: User journey visualization */}
-      <HowItWorks />
+      <section id="how-it-works">
+        <HowItWorks />
+      </section>
 
       {/* Demo Section - Product demonstration and screenshots */}
       {/* README: Product demonstration */}
-      <Demo />
+      <section id="demo">
+        <Demo />
+      </section>
 
       {/* Testimonials - Social proof and user reviews */}
       {/* README: Social proof */}
@@ -80,11 +86,46 @@ export default function Home() {
 
       {/* FAQ Section - Address common user questions */}
       {/* README: Common questions */}
-      <FAQ />
+      <section id="faq">
+        <FAQ />
+      </section>
 
       {/* Final CTA - Last chance for conversion */}
       {/* README: Call-to-action */}
       <CTA />
+
+      {/* App Navigation Links - Outside navbar for consistent access */}
+      <section className="py-8 bg-gray-50 border-t">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap justify-center gap-4">
+            <a
+              href="/dashboard"
+              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+            >
+              Dashboard
+            </a>
+            <a
+              href="/archive"
+              className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
+            >
+              Archive
+            </a>
+            <a
+              href="/profile"
+              className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors font-medium"
+            >
+              Profile
+            </a>
+            <a
+              href="/settings"
+              className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
+            >
+              Settings
+            </a>
+          </div>
+        </div>
+      </section>
     </>
   );
 }
+

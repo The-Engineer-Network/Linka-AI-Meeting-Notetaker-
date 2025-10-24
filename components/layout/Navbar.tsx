@@ -26,8 +26,11 @@ import { Button } from "@/components/ui/button"; // Custom button with tactile f
 import { Chrome, Menu, X } from "lucide-react"; // README: Lucide React icons
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"; // README: Framer Motion for animations
+import { usePathname } from "next/navigation";
 
 export function Navbar() {
+  const pathname = usePathname();
+  const isLandingPage = pathname === "/";
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -53,18 +56,37 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-1">
-              <Link href="#features" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
-                Features
-              </Link>
-              <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
-                How It Works
-              </Link>
-              <Link href="#demo" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
-                Demo
-              </Link>
-              <Link href="#faq" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
-                FAQ
-              </Link>
+              {isLandingPage ? (
+                <>
+                  <Link href="#features" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    Features
+                  </Link>
+                  <Link href="#how-it-works" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    How It Works
+                  </Link>
+                  <Link href="#demo" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    Demo
+                  </Link>
+                  <Link href="#faq" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    FAQ
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    Dashboard
+                  </Link>
+                  <Link href="/archive" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    Archive
+                  </Link>
+                  <Link href="/profile" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    Profile
+                  </Link>
+                  <Link href="/settings" className="text-gray-700 hover:text-blue-600 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-blue-50 active:scale-95 cursor-pointer">
+                    Settings
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 
@@ -97,34 +119,69 @@ export function Navbar() {
             transition={{ duration: 0.3 }}
           >
             <div className="px-4 py-6 space-y-2">
-              <Link
-                href="#features"
-                className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                Features
-              </Link>
-              <Link
-                href="#how-it-works"
-                className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                How It Works
-              </Link>
-              <Link
-                href="#demo"
-                className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                Demo
-              </Link>
-              <Link
-                href="#faq"
-                className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
-                onClick={() => setIsOpen(false)}
-              >
-                FAQ
-              </Link>
+              {isLandingPage ? (
+                <>
+                  <Link
+                    href="#features"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Features
+                  </Link>
+                  <Link
+                    href="#how-it-works"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    How It Works
+                  </Link>
+                  <Link
+                    href="#demo"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Demo
+                  </Link>
+                  <Link
+                    href="#faq"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    FAQ
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    href="/archive"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Archive
+                  </Link>
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Profile
+                  </Link>
+                  <Link
+                    href="/settings"
+                    className="block px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200 active:scale-95 cursor-pointer"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Settings
+                  </Link>
+                </>
+              )}
             </div>
           </motion.div>
         )}

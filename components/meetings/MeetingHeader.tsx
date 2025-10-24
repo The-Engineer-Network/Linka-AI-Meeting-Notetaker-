@@ -1,6 +1,6 @@
 // components/meetings/MeetingHeader.tsx
 
-import { Search, Filter } from "lucide-react";
+import { Search, Filter, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -11,6 +11,7 @@ interface MeetingHeaderProps {
   showFilters: boolean;
   onToggleFilters: () => void;
   activeFiltersCount: number;
+  onBackToDashboard?: () => void;
 }
 
 export function MeetingHeader({
@@ -19,14 +20,28 @@ export function MeetingHeader({
   showFilters,
   onToggleFilters,
   activeFiltersCount,
+  onBackToDashboard,
 }: MeetingHeaderProps) {
   return (
     <header className="border-b border-border bg-card/50 backdrop-blur-sm top-0 z-40">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Meeting Archive</h1>
-            <p className="text-muted-foreground mt-1">Search and manage your AI meeting records</p>
+          <div className="flex items-center gap-4">
+            {onBackToDashboard && (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={onBackToDashboard}
+                className="gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Dashboard
+              </Button>
+            )}
+            <div>
+              <h1 className="text-3xl font-bold text-foreground">Meeting Archive</h1>
+              <p className="text-muted-foreground mt-1">Search and manage your AI meeting records</p>
+            </div>
           </div>
         </div>
 

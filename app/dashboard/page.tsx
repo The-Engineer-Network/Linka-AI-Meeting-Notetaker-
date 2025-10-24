@@ -51,8 +51,8 @@ export default function Dashboard() {
   ];
 
   const handleStartRecording = () => {
-    // TODO: Implement start recording logic
-    console.log('Start recording');
+    // Navigate to live meeting page
+    window.location.href = '/live-meeting';
   };
 
   const handleSummarize = () => {
@@ -71,8 +71,8 @@ export default function Dashboard() {
   };
 
   const handleViewMeeting = (meetingId: string) => {
-    // TODO: Implement view meeting logic
-    console.log('View meeting:', meetingId);
+    // Navigate to archive detail page
+    window.location.href = `/archive/${meetingId}`;
   };
 
   const handleExportMeeting = (meetingId: string) => {
@@ -93,7 +93,6 @@ export default function Dashboard() {
           <div className="flex justify-between items-center py-4">
             <ExtensionLogo />
             <div className="flex items-center space-x-6">
-              <NavigationBar />
               <UserProfileButton />
             </div>
           </div>

@@ -43,7 +43,12 @@ export function MeetingCard({
               className="mt-1"
             />
             <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-foreground truncate">{meeting.title}</h3>
+              <button
+                onClick={() => window.location.href = `/archive/${meeting.id}`}
+                className="text-left hover:underline"
+              >
+                <h3 className="font-semibold text-foreground truncate">{meeting.title}</h3>
+              </button>
               <p className="text-sm text-muted-foreground">
                 {meeting.timestamp.toLocaleDateString()} at {meeting.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
               </p>

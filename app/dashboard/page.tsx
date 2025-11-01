@@ -30,43 +30,39 @@ import { StatisticsGrid } from '@/components/dashboard/StatisticsGrid';
 import { RecentMeetingsList } from '@/components/dashboard/RecentMeetingsList';
 import { SettingsButton } from '@/components/dashboard/SettingsButton';
 import { ThemeToggle } from '@/components/dashboard/ThemeToggle';
+import { useMeetings } from '@/hooks/useMeetings';
+import { useAudioRecording } from '@/hooks/useAudioRecording';
+import { useAIProcessing } from '@/hooks/useAIProcessing';
+import { useSettings } from '@/hooks/useSettings';
 
 export default function Dashboard() {
-  // Mock data - replace with real data from APIs
-  const mockMeetings = [
-    {
-      id: '1',
-      title: 'Team Standup Meeting',
-      timestamp: '2024-01-15 10:00 AM',
-      duration: '30 min',
-      participantCount: 5,
-    },
-    {
-      id: '2',
-      title: 'Project Planning Session',
-      timestamp: '2024-01-14 2:00 PM',
-      duration: '1h 15min',
-      participantCount: 8,
-    },
-  ];
+  const { meetings, loading: meetingsLoading, createMeeting } = useMeetings();
+  const { settings } = useSettings();
+  const { isRecording, startRecording, stopRecording } = useAudioRecording();
+  const { processing: aiProcessing, processWithAI } = useAIProcessing();
 
-  const handleStartRecording = () => {
-    // Navigate to live meeting page
-    window.location.href = '/live-meeting';
+  const handleStartRecording = async () => {
+    try {
+      await startRecording();
+      // Navigate to live meeting page
+      window.location.href = '/live-meeting';
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+    }
   };
 
-  const handleSummarize = () => {
-    // TODO: Implement summarize logic
+  const handleSummarize = async () => {
+    // TODO: Implement batch summarize logic
     console.log('Summarize');
   };
 
-  const handleTranslate = () => {
-    // TODO: Implement translate logic
+  const handleTranslate = async () => {
+    // TODO: Implement batch translate logic
     console.log('Translate');
   };
 
-  const handleExport = () => {
-    // TODO: Implement export logic
+  const handleExport = async () => {
+    // TODO: Implement batch export logic
     console.log('Export');
   };
 
@@ -103,8 +99,8 @@ export default function Dashboard() {
         {/* Status Section */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-6">
-            <LiveMeetingStatusBadge isActive={false} />
-            <AIConnectionStatus isConnected={true} />
+            <LiveMeetingStatusBadge isActive={isRecording} />
+            <AIConnectionStatus isConnected={!aiProcessing} />
           </div>
           <div className="flex items-center space-x-4">
             <ThemeToggle />

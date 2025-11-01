@@ -19,7 +19,7 @@
  * - Handles AI processing status and error states
  */
 "use client"
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MeetingHeader } from '@/components/live-meeting/MeetingHeader';
 import { MeetingTimer } from '@/components/live-meeting/MeetingTimer';
 import { BackButton } from '@/components/live-meeting/BackButton';
@@ -32,64 +32,111 @@ import { SpeakerLabelToggle } from '@/components/live-meeting/SpeakerLabelToggle
 import { ProcessingStatusBar } from '@/components/live-meeting/ProcessingStatusBar';
 import { ConnectionQualityIndicator } from '@/components/live-meeting/ConnectionQualityIndicator';
 import { SaveIndicator } from '@/components/live-meeting/SaveIndicator';
+import { useAudioRecording } from '@/hooks/useAudioRecording';
+import { useAIProcessing } from '@/hooks/useAIProcessing';
+import { useSettings } from '@/hooks/useSettings';
+import { database } from '@/lib/backend-init';
 
 export default function LiveMeeting() {
-  // Mock state - replace with real state management
-  const [isRecording, setIsRecording] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
+  const [transcript, setTranscript] = useState('');
+  const [meetingId, setMeetingId] = useState<string | null>(null);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
   const [showSpeakerLabels, setShowSpeakerLabels] = useState(true);
+  const [isPaused, setIsPaused] = useState(false);
+
+  const { isRecording, duration, startRecording, stopRecording, pauseRecording, resumeRecording } = useAudioRecording();
+  const { processWithAI } = useAIProcessing();
+  const { settings } = useSettings();
   const [startTime] = useState(new Date());
 
-  // Mock data
+  // Mock data for now - will be replaced with real transcript data
   const mockTranscripts = [
     {
       id: '1',
-      speaker: 'John Doe',
+      speaker: 'Speaker 1',
       timestamp: '10:30',
-      message: 'Let\'s start the meeting by reviewing our quarterly goals.',
-      highlights: ['quarterly goals']
-    },
-    {
-      id: '2',
-      speaker: 'Jane Smith',
-      timestamp: '10:31',
-      message: 'I think we should focus on increasing our user engagement metrics.',
-      highlights: ['user engagement']
+      message: transcript || 'Recording in progress...',
+      highlights: []
     }
   ];
 
   const mockKeyPoints = [
-    { id: '1', text: 'Review quarterly goals', timestamp: '10:30' },
-    { id: '2', text: 'Focus on user engagement', timestamp: '10:31' }
+    { id: '1', text: 'Meeting in progress', timestamp: '10:30' }
   ];
 
-  const mockActionItems = [
-    {
-      id: '1',
-      text: 'Schedule follow-up meeting',
-      assignedTo: 'John Doe',
-      priority: 'high' as const,
-      timestamp: '10:32'
+  const mockActionItems: any[] = [];
+
+  useEffect(() => {
+    // Create meeting record when recording starts
+    if (isRecording && !meetingId) {
+      createMeetingRecord();
     }
-  ];
+  }, [isRecording, meetingId]);
 
-  const handleStartRecording = () => {
-    setIsRecording(true);
-    setIsPaused(false);
+  const createMeetingRecord = async () => {
+    try {
+      const meeting = await database.meetings.create({
+        title: 'Live Meeting',
+        startTime: new Date(),
+        status: 'recording'
+      });
+      setMeetingId(meeting.id);
+    } catch (error) {
+      console.error('Failed to create meeting record:', error);
+    }
   };
 
-  const handleStopRecording = () => {
-    setIsRecording(false);
-    setIsPaused(false);
-    // Navigate back to dashboard after stopping recording
-    setTimeout(() => {
-      window.location.href = '/dashboard';
-    }, 1000); // Small delay to show the stop action
+  const handleStartRecording = async () => {
+    try {
+      await startRecording();
+      setIsPaused(false);
+    } catch (error) {
+      console.error('Failed to start recording:', error);
+    }
   };
 
-  const handlePauseRecording = () => {
-    setIsPaused(!isPaused);
+  const handleStopRecording = async () => {
+    try {
+      const audioBlob = await stopRecording();
+
+      if (meetingId && audioBlob) {
+        // Process audio and generate transcript
+        const transcriptResult = await database.transcripts.create({
+          meetingId,
+          content: transcript || 'No transcript available',
+          timestamp: Date.now(),
+          createdAt: new Date()
+        });
+
+        // Update meeting with transcript and audio
+        await database.meetings.update(meetingId, {
+          transcript: transcript || 'No transcript available',
+          audioBlob,
+          endTime: new Date(),
+          status: 'completed'
+        });
+      }
+
+      // Navigate back to dashboard after stopping recording
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1000);
+    } catch (error) {
+      console.error('Failed to stop recording:', error);
+    }
+  };
+
+  const handlePauseRecording = async () => {
+    try {
+      if (isPaused) {
+        await resumeRecording();
+      } else {
+        await pauseRecording();
+      }
+      setIsPaused(!isPaused);
+    } catch (error) {
+      console.error('Failed to toggle pause:', error);
+    }
   };
 
   const handleAddNote = (note: string) => {

@@ -1,16 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Chrome Extension Configuration
-  output: 'export',
-  trailingSlash: true,
+  // Web App Configuration
   images: {
     unoptimized: true,
   },
 
-  // Webpack configuration for Chrome extension
+  // Webpack configuration for web app
   webpack: (config, { isServer }) => {
-    // Handle Chrome extension APIs in client-side code
+    // Handle client-side only modules
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
@@ -20,42 +18,12 @@ const nextConfig: NextConfig = {
       };
     }
 
-    // Add Chrome extension types
-    config.externals = config.externals || [];
-    config.externals.push({
-      'chrome': 'chrome',
-    });
-
     return config;
   },
 
-  // Environment variables for Chrome extension
+  // Environment variables for web app
   env: {
-    NEXT_PUBLIC_IS_CHROME_EXTENSION: 'true',
-  },
-
-  // Headers for Chrome extension
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Cross-Origin-Embedder-Policy',
-            value: 'require-corp',
-          },
-          {
-            key: 'Cross-Origin-Opener-Policy',
-            value: 'same-origin',
-          },
-        ],
-      },
-    ];
-  },
-
-  // Experimental features for Chrome extension compatibility
-  experimental: {
-    esmExternals: 'loose',
+    NEXT_PUBLIC_IS_WEB_APP: 'true',
   },
 };
 

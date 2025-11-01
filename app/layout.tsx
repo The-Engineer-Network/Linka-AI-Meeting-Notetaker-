@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "@/components/ClientLayout";
+import { BackendInitializer } from "@/components/BackendInitializer";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -55,7 +57,11 @@ export default function RootLayout({
       <body
         className={`${inter.variable} font-sans antialiased bg-white text-gray-900`}
       >
-        <ClientLayout>{children}</ClientLayout>
+        <ErrorBoundary>
+          <BackendInitializer>
+            <ClientLayout>{children}</ClientLayout>
+          </BackendInitializer>
+        </ErrorBoundary>
       </body>
     </html>
   );

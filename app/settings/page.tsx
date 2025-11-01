@@ -1,12 +1,17 @@
 "use client";
 
+import { useState } from 'react';
+import { useSettings } from '@/hooks/useSettings';
+import { GeneralSettings } from './components/GeneralSettings';
+import { SettingsTabs } from './components/SettingsTabs';
+
 /**
  * Settings Page - User Preferences & Configuration
  *
  * This page provides comprehensive settings for the Linka Chrome extension
  * and web interface. Organized into categories:
  *
- * Features to implement:
+ * Features implemented:
  * - Transcription Settings: Language, quality, speaker detection
  * - Privacy Settings: Data retention, sharing preferences
  * - Notification Settings: Email alerts, browser notifications
@@ -19,14 +24,11 @@
  * - Implement form validation and save states
  * - Sync settings with Chrome extension storage
  * - Add confirmation dialogs for destructive actions
- *
- * TODO: Implement tabbed interface for settings categories
- * TODO: Add form validation and error handling
- * TODO: Implement Chrome extension storage sync
- * TODO: Add settings export/import functionality
  */
 
 export default function Settings() {
+  const [activeTab, setActiveTab] = useState('general');
+  const { settings, loading, saving, error, updateSetting, resetCategory } = useSettings();
   const handleBackToDashboard = () => {
     window.location.href = '/dashboard';
   };
@@ -34,6 +36,9 @@ export default function Settings() {
   const handleGoToProfile = () => {
     window.location.href = '/profile';
   };
+
+  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading settings...</div>;
+  if (error) return <div className="min-h-screen flex items-center justify-center text-red-600">Error: {error}</div>;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -55,9 +60,27 @@ export default function Settings() {
         </div>
 
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
-        <div className="bg-white rounded-lg shadow p-6">
-          <p className="text-gray-600">Settings and preferences will be implemented here.</p>
-          {/* TODO: Add tabbed interface for different setting categories */}
+
+        <div className="space-y-6">
+          <SettingsTabs
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
+
+          {activeTab === 'general' && settings && (
+            <GeneralSettings
+              settings={settings.ui || {}}
+              onUpdate={updateSetting}
+              onReset={resetCategory}
+            />
+          )}
+
+          {/* TODO: Add other settings components for different tabs */}
+          {activeTab !== 'general' && (
+            <div className="bg-white rounded-lg shadow p-6">
+              <p className="text-gray-600">Settings for {activeTab} will be implemented here.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

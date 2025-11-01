@@ -18,7 +18,9 @@
   "permissions": [
     "activeTab",
     "storage",
-    "tabCapture"
+    "tabCapture",
+    "identity",
+    "scripting"
   ],
 
   "host_permissions": [
@@ -26,7 +28,9 @@
     "https://zoom.us/*",
     "https://teams.microsoft.com/*",
     "https://slack.com/*",
-    "https://*.slack.com/*"
+    "https://*.slack.com/*",
+    "https://*.zoom.us/*",
+    "https://*.teams.microsoft.com/*"
   ],
 
   "background": {
@@ -35,15 +39,33 @@
 
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content/meeting-capture.js"]
+      "matches": [
+        "https://meet.google.com/*",
+        "https://zoom.us/*",
+        "https://teams.microsoft.com/*",
+        "https://slack.com/*",
+        "https://*.slack.com/*",
+        "https://*.zoom.us/*",
+        "https://*.teams.microsoft.com/*"
+      ],
+      "js": ["content/meeting-capture.js"],
+      "run_at": "document_start"
     }
   ],
 
   "web_accessible_resources": [
     {
-      "resources": ["assets/*", "out/_next/*"],
+      "resources": [
+        "assets/*",
+        "out/_next/*",
+        "content/*",
+        "background/*"
+      ],
       "matches": ["<all_urls>"]
     }
-  ]
+  ],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
 }
